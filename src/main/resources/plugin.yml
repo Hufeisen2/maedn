@@ -1,0 +1,5 @@
+name: maedn
+version: '1.0'
+main: dev.hufeisen.maedn.MaednMain
+api-version: '1.21'
+authors: [ Hufeisen ]
