@@ -1,17 +1,100 @@
 package dev.hufeisen.maedn;
 
+import dev.hufeisen.maedn.commands.SetupCommand;
+import dev.hufeisen.maedn.commands.TestCommand;
+import dev.hufeisen.maedn.listener.InventoryListener;
+import dev.hufeisen.maedn.listener.PlayerInteractListener;
+import dev.hufeisen.maedn.model.GamePlayer;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.List;
 
 public final class MaednMain extends JavaPlugin {
 
+    private static MaednMain instance;
+    private GameState gameState = GameState.LOBBY;
+
     @Override
     public void onEnable() {
-        // Plugin startup logic
+        instance = this;
 
+        getServer().getConsoleSender().sendMessage("$6Initializing Maedn Plugin");
+
+        init(getServer().getPluginManager());
+
+        getServer().getConsoleSender().sendMessage("$6Maedn Plugin initialized");
+
+    }
+
+    private void init(PluginManager pluginManager) {
+
+        getCommand("setup").setExecutor(new SetupCommand());
+
+        pluginManager.registerEvents(new InventoryListener(), this);
+        pluginManager.registerEvents(new PlayerInteractListener(), this);
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+    public static MaednMain getInstance() {
+        return instance;
+    }
+
+    public static void setGameState(GameState gameState) {
+        instance.gameState = gameState;
+    }
+
+    public static GameState getGameState() {
+        return instance.gameState;
+    }
+
+    public static NamespacedKey getNamespacedKey(String key) {
+        return new NamespacedKey(instance, key);
+    }
+
+    public static ItemStack getSetupItem(Player player) {
+        GamePlayer gamePlayer = GamePlayer.getGamePlayer(player.getUniqueId());
+
+        String mode = switch (gamePlayer.getSetupSelection()) {
+            case "fields" -> "Fields";
+            case "red_start" -> "Red Start";
+            case "blue_start" -> "Blue Start";
+            case "green_start" -> "Green Start";
+            case "yellow_start" -> "Yellow Start";
+            case "red_home" -> "Red Home";
+            case "blue_home" -> "Blue Home";
+            case "green_home" -> "Green Home";
+            case "yellow_home" -> "Yellow Home";
+            default -> "UNKNOWN";
+        };
+
+        ItemStack setupItem = new ItemStack(Material.DIAMOND_HOE);
+        ItemMeta setupItemMeta = setupItem.getItemMeta();
+
+        setupItemMeta.displayName(Component.text("Setup", NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false));
+        List<Component> lore = List.of(
+                Component.text("Current Mode: ", NamedTextColor.GREEN).append(Component.text(mode, NamedTextColor.WHITE)).decoration(TextDecoration.ITALIC, false),
+                Component.space(),
+                Component.text("Left click to setup fields", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false),
+                Component.text("Right click to select setup type", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false));
+        setupItemMeta.lore(lore);
+
+        setupItemMeta.getPersistentDataContainer().set(MaednMain.getNamespacedKey("setup"), PersistentDataType.BOOLEAN, true);
+
+        setupItem.setItemMeta(setupItemMeta);
+        return setupItem;
     }
 }
