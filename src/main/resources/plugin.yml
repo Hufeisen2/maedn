@@ -9,8 +9,15 @@ commands:
     description: Setup the game
     usage: /<command>
     permission: maedn.setup
+  start:
+    description: Start the game
+    usage: /<command>
+    permission: maedn.start
 
 permissions:
-    maedn.setup:
-        description: Allows the player to setup the game
-        default: op
+  maedn.setup:
+    description: Allows the player to setup the game
+    default: op
+  maedn.start:
+    description: Allows the player to start the game
+    default: op

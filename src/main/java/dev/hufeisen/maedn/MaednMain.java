@@ -1,9 +1,10 @@
 package dev.hufeisen.maedn;
 
 import dev.hufeisen.maedn.commands.SetupCommand;
-import dev.hufeisen.maedn.commands.TestCommand;
+import dev.hufeisen.maedn.commands.StartGameCommand;
 import dev.hufeisen.maedn.listener.InventoryListener;
-import dev.hufeisen.maedn.listener.PlayerInteractListener;
+import dev.hufeisen.maedn.listener.PlayerInteractGameListener;
+import dev.hufeisen.maedn.listener.PlayerInteractSetupListener;
 import dev.hufeisen.maedn.model.GamePlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -39,9 +40,11 @@ public final class MaednMain extends JavaPlugin {
     private void init(PluginManager pluginManager) {
 
         getCommand("setup").setExecutor(new SetupCommand());
+        getCommand("start").setExecutor(new StartGameCommand());
 
         pluginManager.registerEvents(new InventoryListener(), this);
-        pluginManager.registerEvents(new PlayerInteractListener(), this);
+        pluginManager.registerEvents(new PlayerInteractSetupListener(), this);
+        pluginManager.registerEvents(new PlayerInteractGameListener(), this);
     }
 
     @Override
@@ -78,6 +81,14 @@ public final class MaednMain extends JavaPlugin {
             case "blue_home" -> "Blue Home";
             case "green_home" -> "Green Home";
             case "yellow_home" -> "Yellow Home";
+            case "red_start_entrance" -> "Red Start Entrance";
+            case "blue_start_entrance" -> "Blue Start Entrance";
+            case "green_start_entrance" -> "Green Start Entrance";
+            case "yellow_start_entrance" -> "Yellow Start Entrance";
+            case "red_home_entrance" -> "Red Home Entrance";
+            case "blue_home_entrance" -> "Blue Home Entrance";
+            case "green_home_entrance" -> "Green Home Entrance";
+            case "yellow_home_entrance" -> "Yellow Home Entrance";
             default -> "UNKNOWN";
         };
 
