@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
  * @since 1.0
  */
 public final class GUIInventoryBuilder {
+
     private String title = "GUI";
     private int size = 3;
     private ItemStack filler = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);

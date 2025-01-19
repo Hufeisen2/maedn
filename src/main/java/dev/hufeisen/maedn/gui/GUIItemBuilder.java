@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
  * @since 1.0
  */
 public final class GUIItemBuilder {
+
     private boolean isActive = false;
     private boolean isRetrievable = false;
     private ItemStack item = new ItemStack(Material.STONE);

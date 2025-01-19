@@ -19,7 +19,6 @@ public class InventoryListener implements Listener {
     public void onInventoryClose(InventoryCloseEvent event) {
 
         for (GUIInventory gui : GUIInventory.getAllGUIs()) gui.onInventoryClose(event);
-
     }
 
 }

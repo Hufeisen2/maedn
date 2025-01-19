@@ -34,7 +34,8 @@ public interface GUIItemEvents {
      * @param item The activated gui item
      * @since 1.0
      */
-    default void onActivate(GUIInventory gui, GUIItem item) {}
+    default void onActivate(GUIInventory gui, GUIItem item) {
+    }
 
     /**
      * <p>
@@ -45,6 +46,7 @@ public interface GUIItemEvents {
      * @param item The disabled gui item
      * @since 1.0
      */
-    default void onDisable(GUIInventory gui, GUIItem item) {}
+    default void onDisable(GUIInventory gui, GUIItem item) {
+    }
 
 }
