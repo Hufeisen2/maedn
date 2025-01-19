@@ -10,7 +10,6 @@ import dev.hufeisen.maedn.model.GamePlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -23,29 +22,25 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Logger;
-
-public class PlayerInteractListener implements Listener {
+public class PlayerInteractSetupListener implements Listener {
 
     @EventHandler
     public void onPlayerClick(PlayerInteractEvent event) {
 
-        if(event.getItem() == null || !event.getItem().getItemMeta().getPersistentDataContainer().has(MaednMain.getNamespacedKey("setup"))) {
+        if (event.getItem() == null || !event.getItem().getItemMeta().getPersistentDataContainer().has(MaednMain.getNamespacedKey("setup"))) {
             return;
         }
 
-        if(!GamePlayer.getGamePlayer(event.getPlayer().getUniqueId()).isSetupMode()) {
+        if (!GamePlayer.getGamePlayer(event.getPlayer().getUniqueId()).isSetupMode()) {
             return;
         }
 
-        if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+        if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
             event.setCancelled(true);
             openSetupMenu(event.getPlayer());
 
-        } else if(event.getAction() == Action.LEFT_CLICK_BLOCK) {
+        } else if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
 
             event.setCancelled(true);
             handleLeftClick(event.getPlayer(), event.getClickedBlock().getLocation());
@@ -109,10 +104,10 @@ public class PlayerInteractListener implements Listener {
 
     private void updateSetupItem(Player player) {
         player.getInventory().forEach(item -> {
-            if(item == null || !item.hasItemMeta()) {
+            if (item == null || !item.hasItemMeta()) {
                 return;
             }
-            if(item.getItemMeta().getPersistentDataContainer().has(MaednMain.getNamespacedKey("setup"))) {
+            if (item.getItemMeta().getPersistentDataContainer().has(MaednMain.getNamespacedKey("setup"))) {
                 item.setItemMeta(MaednMain.getSetupItem(player).getItemMeta());
             }
         });
@@ -123,18 +118,20 @@ public class PlayerInteractListener implements Listener {
         String setupSelection = gamePlayer.getSetupSelection();
         FileConfiguration config = MaednMain.getInstance().getConfig();
 
-        if(setupSelection.contains("entrance")) {
+        if (setupSelection.contains("entrance")) {
 
             config.set(setupSelection, location);
+
             player.sendMessage(Component.text("Entrance location set!"));
 
         } else {
             int size = config.getInt(setupSelection + ".size", 0);
             config.set(setupSelection + "." + size, location);
             config.set(setupSelection + ".size", size + 1);
-            MaednMain.getInstance().saveConfig();
 
             player.sendMessage(Component.text("Location saved for index ").append(Component.text(size, NamedTextColor.WHITE)));
         }
+
+        MaednMain.getInstance().saveConfig();
     }
 }
