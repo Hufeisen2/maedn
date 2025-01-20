@@ -24,6 +24,10 @@ public class PlayerInteractGameListener implements Listener {
             Player player = event.getPlayer();
             GamePlayer gamePlayer = GamePlayer.getGamePlayer(player.getUniqueId());
 
+            if(event.getItem() == null) {
+                return;
+            }
+
             if (gamePlayer.getTeam() == GameBoard.getCurrentTeam()) {
 
                 if (event.getItem().getType() == Material.TARGET && gamePlayer.isDiceRollAllowed() && gamePlayer.getDiceResult() == 0) {
