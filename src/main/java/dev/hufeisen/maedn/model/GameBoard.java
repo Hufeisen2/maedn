@@ -128,6 +128,23 @@ public class GameBoard {
         player.updateInventory();
     }
 
+    public static void takePiece(GamePiece piece) {
+
+        int freePosition;
+        for(freePosition = 0; freePosition < homeFields.get(piece.getTeam()).size(); freePosition++) {
+            if(getPieceAtStartPosition(freePosition, piece.getTeam()) == null) {
+                break;
+            }
+        }
+
+        piece.setPosition(freePosition);
+        piece.setAtStart(true);
+        piece.setAtHome(false);
+        piece.getArmorStand().teleport(startFields.get(piece.getTeam()).get(piece.getPosition()).toCenterLocation());
+        players.forEach(GamePlayer::updateInventory);
+
+    }
+
     public static boolean isMoveAllowed(GamePlayer player, GamePiece piece, int steps) {
 
         //a 0-step move is not possible
@@ -213,9 +230,15 @@ public class GameBoard {
                 if (newPosition >= fields.size()) {
                     newPosition = newPosition - fields.size();
                 }
+
+                GamePiece pieceAtField = getPieceAtFieldPosition(newPosition);
+
+                if(pieceAtField != null) {
+                    takePiece(pieceAtField);
+                }
+
                 piece.setPosition(newPosition);
                 piece.getArmorStand().teleport(positionToLocation(piece.getPosition()));
-
             }
         }
     }
@@ -234,6 +257,10 @@ public class GameBoard {
         playingTeams = new ArrayList<>();
         players = new ArrayList<>();
 
+    }
+
+    public static GamePiece getPieceAtStartPosition(int position, Team team) {
+        return players.stream().flatMap(player -> player.getPieces().stream()).filter(piece -> piece.isAtStart() && piece.getTeam() == team && piece.getPosition() == position).findFirst().orElse(null);
     }
 
     public static GamePiece getPieceAtFieldPosition(int position) {
