@@ -1,6 +1,7 @@
 package dev.hufeisen.maedn.api.particle;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -13,6 +14,7 @@ import java.util.List;
 public class ParticleAPI {
 
     private static List<ParticleEffect> effectList = new ArrayList<>();
+    private static List<ParticleEffect> effectBuffer = new ArrayList<>();
 
     /**
      * <p>
@@ -23,7 +25,7 @@ public class ParticleAPI {
      * @since 1.0
      */
     public static void startNewParticleEffect(ParticleEffect effect) {
-        effectList.add(effect);
+        effectBuffer.add(effect);
     }
 
     /**
@@ -34,9 +36,8 @@ public class ParticleAPI {
      * @since 1.0
      */
     public static void updateParticle() {
-
-        effectList.removeIf(allEffect -> !allEffect.onRun());
-
+        effectList.addAll(effectBuffer);
+        effectList.removeIf(effect -> !effect.onRun());
     }
 
 }
