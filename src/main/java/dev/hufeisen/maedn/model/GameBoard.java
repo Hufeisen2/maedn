@@ -101,13 +101,12 @@ public class GameBoard {
             }
         }
 
-        currentTeam = Team.GREEN;
+        currentTeam = Team.RED;
     }
 
     // Assign every player to one team if there are enough teams available
     public static void assignTeams() {
         List<Team> availableTeams = new ArrayList<>(Team.getEnabledTeams());
-        availableTeams = availableTeams.reversed();
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (availableTeams.isEmpty()) {
                 break;
