@@ -13,6 +13,10 @@ commands:
     description: Start the game
     usage: /<command>
     permission: maedn.start
+  setdice:
+    description: debug
+    usage: /<command>
+    permission: maedn.setup
 
 permissions:
   maedn.setup:

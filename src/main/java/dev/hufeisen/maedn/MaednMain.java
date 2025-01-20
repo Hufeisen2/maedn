@@ -1,5 +1,6 @@
 package dev.hufeisen.maedn;
 
+import dev.hufeisen.maedn.commands.SetDiceCommand;
 import dev.hufeisen.maedn.commands.SetupCommand;
 import dev.hufeisen.maedn.commands.StartGameCommand;
 import dev.hufeisen.maedn.listener.InventoryListener;
@@ -41,6 +42,7 @@ public final class MaednMain extends JavaPlugin {
 
         getCommand("setup").setExecutor(new SetupCommand());
         getCommand("start").setExecutor(new StartGameCommand());
+        getCommand("setdice").setExecutor(new SetDiceCommand());
 
         pluginManager.registerEvents(new InventoryListener(), this);
         pluginManager.registerEvents(new PlayerInteractSetupListener(), this);
