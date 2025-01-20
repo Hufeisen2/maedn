@@ -154,7 +154,7 @@ public class GameBoard {
 
         } else {
             //Check if a move is possible on the board
-            if (piece.getPosition() + steps > homeEntrance && piece.getPosition() < homeEntrance) {
+            if (piece.getPosition() + steps > homeEntrance && piece.getPosition() <= homeEntrance) {
 
                 int remainingSteps = steps - (homeEntrance - piece.getPosition()) - 1;
 
@@ -196,7 +196,7 @@ public class GameBoard {
         int homeEntrance = homeFieldEntrance.get(player.getTeam());
 
         //Check if piece can enter its home
-        if (piece.getPosition() + steps > homeEntrance && piece.getPosition() < homeEntrance) {
+        if (piece.getPosition() + steps > homeEntrance && piece.getPosition() <= homeEntrance) {
 
             int remainingSteps = steps - (homeEntrance - piece.getPosition()) - 1;
             piece.setPosition(remainingSteps);
@@ -248,5 +248,9 @@ public class GameBoard {
 
     public static HashMap<Team, Integer> getStartFieldEntrance() {
         return startFieldEntrance;
+    }
+
+    public static List<Location> getHomeFields(Team team) {
+        return homeFields.get(team);
     }
 }
