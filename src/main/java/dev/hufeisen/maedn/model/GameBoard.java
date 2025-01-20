@@ -6,7 +6,6 @@ import dev.hufeisen.maedn.Team;
 import dev.hufeisen.maedn.utils.ArmorStandUtils;
 import dev.hufeisen.maedn.utils.ColorUtils;
 import dev.hufeisen.maedn.utils.PlayerUtils;
-import io.papermc.paper.threadedregions.scheduler.AsyncScheduler;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
@@ -18,7 +17,6 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
@@ -310,7 +308,7 @@ public class GameBoard {
 
     public static void reset() {
 
-        if(gameLoop != null) {
+        if (gameLoop != null) {
             gameLoop.cancel();
         }
 

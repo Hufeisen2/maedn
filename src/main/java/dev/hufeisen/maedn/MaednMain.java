@@ -59,7 +59,7 @@ public final class MaednMain extends JavaPlugin {
     @Override
     public void onDisable() {
         GameBoard.reset();
-        if(particleRunnable != null) {
+        if (particleRunnable != null) {
             particleRunnable.cancel();
         }
     }

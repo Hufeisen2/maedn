@@ -20,7 +20,7 @@ public class GameLoop implements Runnable {
 
         Optional<GamePlayer> currentPlayerOptional = GameBoard.getPlayers().stream().filter(player -> player.getTeam() == GameBoard.getCurrentTeam()).findFirst();
 
-        if(currentPlayerOptional.isPresent()) {
+        if (currentPlayerOptional.isPresent()) {
 
             GamePlayer currentPlayer = currentPlayerOptional.get();
 
@@ -30,29 +30,29 @@ public class GameLoop implements Runnable {
 
     private void displayPiecePath(GamePlayer player, int itemSlot) {
 
-        if(player.getDiceResult() <= 0) {
+        if (player.getDiceResult() <= 0) {
             return;
         }
 
         ItemStack item = player.getPlayer().getInventory().getItem(itemSlot);
 
-        if(item == null || item.getType() != Material.ARMOR_STAND) {
+        if (item == null || item.getType() != Material.ARMOR_STAND) {
             return;
         }
 
         int pieceIndex = item.getAmount() - 1;
 
-        if(pieceIndex >= player.getPieces().size()) {
+        if (pieceIndex >= player.getPieces().size()) {
             return;
         }
 
         GamePiece piece = player.getPieces().get(pieceIndex);
 
-        if(piece == null) {
+        if (piece == null) {
             return;
         }
 
-        if(piece.isAtStart()) {
+        if (piece.isAtStart()) {
             return;
         }
 
@@ -67,25 +67,25 @@ public class GameLoop implements Runnable {
 
         Team team = player.getTeam();
 
-        if(piece.isInGame()) {
+        if (piece.isInGame()) {
 
             int entrancePosition = GameBoard.getHomeFieldEntrance().get(player.getTeam());
 
             int prevPosition = piece.getPosition();
             boolean isPrevHome = false;
-            for(int i = piece.getPosition() + 1; i <= piece.getPosition() + player.getDiceResult(); i++) {
+            for (int i = piece.getPosition() + 1; i <= piece.getPosition() + player.getDiceResult(); i++) {
 
                 int fieldIndex = i;
-                if(i >= GameBoard.getFieldSize()) {
+                if (i >= GameBoard.getFieldSize()) {
                     fieldIndex = i - GameBoard.getFieldSize();
                 }
 
                 Location startLocation;
                 Location endLocation;
-                if(fieldIndex > entrancePosition && piece.getPosition() < entrancePosition) {
+                if (fieldIndex > entrancePosition && piece.getPosition() < entrancePosition) {
 
                     int homePosition = fieldIndex - entrancePosition - 1;
-                    if(isPrevHome) {
+                    if (isPrevHome) {
                         startLocation = GameBoard.homePositionToLocation(prevPosition, team);
                     } else {
                         startLocation = GameBoard.positionToLocation(prevPosition);
@@ -103,11 +103,11 @@ public class GameLoop implements Runnable {
 
                 drawLine(startLocation.toCenterLocation().subtract(0, 0.7, 0), endLocation.toCenterLocation().subtract(0, 0.7, 0), particleColor);
             }
-        } else if(piece.isAtHome()) {
+        } else if (piece.isAtHome()) {
             int prevPosition = piece.getPosition();
-            for(int i = piece.getPosition() + 1; i <= piece.getPosition() + player.getDiceResult(); i++) {
+            for (int i = piece.getPosition() + 1; i <= piece.getPosition() + player.getDiceResult(); i++) {
 
-                if(i >= GameBoard.getHomeFields(player.getTeam()).size()) {
+                if (i >= GameBoard.getHomeFields(player.getTeam()).size()) {
                     break;
                 }
 
