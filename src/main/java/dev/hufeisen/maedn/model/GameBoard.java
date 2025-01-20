@@ -204,6 +204,22 @@ public class GameBoard {
         return true;
     }
 
+    public static boolean isPieceAtStartAndCanMove(GamePlayer player) {
+
+        GamePiece startPiece = getPieceAtFieldPosition(getStartFieldEntrance().get(player.getTeam()));
+
+        if(startPiece == null) {
+            return false;
+        }
+
+        if(startPiece.getTeam() != player.getTeam()) {
+            return false;
+        }
+
+        return isMoveAllowed(player, startPiece, player.getDiceResult());
+
+    }
+
     public static void nextTurn() {
         while (!playingTeams.contains(currentTeam.getNext())) {
             currentTeam = currentTeam.getNext();

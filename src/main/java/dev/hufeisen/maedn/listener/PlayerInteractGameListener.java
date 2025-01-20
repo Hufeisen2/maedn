@@ -6,6 +6,8 @@ import dev.hufeisen.maedn.model.GameBoard;
 import dev.hufeisen.maedn.model.GamePiece;
 import dev.hufeisen.maedn.model.GamePlayer;
 import dev.hufeisen.maedn.utils.DiceUtils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -35,7 +37,13 @@ public class PlayerInteractGameListener implements Listener {
                         return;
                     }
 
-                    if (GameBoard.isMoveAllowed(gamePlayer, piece, gamePlayer.getDiceResult())) {
+                    if(GameBoard.getStartFieldEntrance().get(gamePlayer.getTeam()) != piece.getPosition()
+                            && GameBoard.isPieceAtStartAndCanMove(gamePlayer)
+                            && gamePlayer.getPieces().stream().anyMatch(GamePiece::isAtStart)) {
+
+                        player.sendMessage(Component.text("You must clear your starting field!", NamedTextColor.RED));
+
+                    } else if (GameBoard.isMoveAllowed(gamePlayer, piece, gamePlayer.getDiceResult())) {
                         GameBoard.movePiece(gamePlayer, piece, gamePlayer.getDiceResult());
                         gamePlayer.resetDiceResult();
 
