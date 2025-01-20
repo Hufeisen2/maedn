@@ -85,7 +85,7 @@ public class GameLoop implements Runnable {
 
                 Location startLocation;
                 Location endLocation;
-                if (fieldIndex > entrancePosition && piece.getPosition() < entrancePosition) {
+                if (fieldIndex > entrancePosition && piece.getPosition() <= entrancePosition) {
 
                     int homePosition = fieldIndex - entrancePosition - 1;
                     if (isPrevHome) {

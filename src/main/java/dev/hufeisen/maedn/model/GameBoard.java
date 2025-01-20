@@ -217,7 +217,7 @@ public class GameBoard {
             return false;
         } else if (piece.isAtHome()) {
             //Check if a move is possible in home
-            if (piece.getPosition() + steps > homeFields.get(player.getTeam()).size() || getPieceAtHomePosition(piece.getPosition() + steps, piece.getTeam()) != null) {
+            if (piece.getPosition() + steps >= homeFields.get(player.getTeam()).size() || getPieceAtHomePosition(piece.getPosition() + steps, piece.getTeam()) != null) {
                 return false;
             }
             return true;
