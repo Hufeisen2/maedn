@@ -60,10 +60,11 @@ public class GamePlayer {
     }
 
     public boolean isHomeComplete() {
+
         int piecesAtHomeCount = (int) pieces.stream().filter(GamePiece::isAtHome).count();
 
-        for(int i = 0; i < GameBoard.getHomeFields(team).size() - piecesAtHomeCount; i++) {
-            if(GameBoard.getPieceAtHomePosition(i, team) != null) {
+        for(int i = GameBoard.getHomeFields(team).size()-1; i >= GameBoard.getHomeFields(team).size() - piecesAtHomeCount; i--) {
+            if(GameBoard.getPieceAtHomePosition(i, team) == null) {
                 return false;
             }
         }
@@ -91,7 +92,7 @@ public class GamePlayer {
             player.sendMessage(Component.text("You can roll again", NamedTextColor.GREEN));
         } else {
 
-            if (isPieceInGame()) {
+            if (isPieceInGame() || !isHomeComplete()) {
                 canRollDice = false;
                 diceResult = result;
             } else if (diceRollCount < 2 && isHomeComplete()) {
