@@ -175,11 +175,12 @@ public class GameBoard {
             realPlayer.showTitle(Title.title(titleComponent, subtitleComponent));
             realPlayer.playSound(Sound.sound(Key.key("entity.player.levelup"), Sound.Source.MASTER, 1f, 1f));
 
-            players.stream().filter(player -> player.getUuid().equals(gamePlayer.getUuid())).forEach(loser -> {
+            players.stream().filter(player -> !player.getUuid().equals(gamePlayer.getUuid())).forEach(loser -> {
 
                 Component loserTitleComponent = Component.text("You lost!", NamedTextColor.RED);
                 Component loserSubtitleComponent = Component.text("Maybe you'll have more luck next time!");
                 loser.getPlayer().showTitle(Title.title(loserTitleComponent, loserSubtitleComponent));
+                loser.getPlayer().playSound(Sound.sound(Key.key("block.beacon.deactivate"), Sound.Source.MASTER, 1f, 1f));
 
             });
 
