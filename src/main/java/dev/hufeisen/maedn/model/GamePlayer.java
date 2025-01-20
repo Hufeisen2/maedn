@@ -71,8 +71,8 @@ public class GamePlayer {
 
         int piecesAtHomeCount = getPiecesAtHomeCount();
 
-        for(int i = GameBoard.getHomeFields(team).size()-1; i >= GameBoard.getHomeFields(team).size() - piecesAtHomeCount; i--) {
-            if(GameBoard.getPieceAtHomePosition(i, team) == null) {
+        for (int i = GameBoard.getHomeFields(team).size() - 1; i >= GameBoard.getHomeFields(team).size() - piecesAtHomeCount; i--) {
+            if (GameBoard.getPieceAtHomePosition(i, team) == null) {
                 return false;
             }
         }
@@ -86,7 +86,7 @@ public class GamePlayer {
     }
 
     private int getPiecesAtHomeCount() {
-        return  (int) pieces.stream().filter(GamePiece::isAtHome).count();
+        return (int) pieces.stream().filter(GamePiece::isAtHome).count();
     }
 
     public void setDiceResult(int result) {
@@ -100,14 +100,13 @@ public class GamePlayer {
             if (pieces.stream().anyMatch(GamePiece::isAtStart)) {
                 GamePiece pieceAtStartField = GameBoard.getPieceAtFieldPosition(entrancePosition);
 
-                if(pieceAtStartField == null) {
+                if (pieceAtStartField == null) {
                     GameBoard.movePieceToBoard(this, pieces.stream().filter(GamePiece::isAtStart).findFirst().get());
                     diceResult = 0;
-                } else if(pieceAtStartField.getTeam() != team) {
+                } else if (pieceAtStartField.getTeam() != team) {
                     GameBoard.takePiece(pieceAtStartField);
                     GameBoard.movePieceToBoard(this, pieces.stream().filter(GamePiece::isAtStart).findFirst().get());
-                }
-                else {
+                } else {
                     diceResult = result;
                 }
             } else {
@@ -122,7 +121,7 @@ public class GamePlayer {
             if (isPieceInGame() || !isHomeComplete()) {
                 canRollDice = false;
 
-                if(pieces.stream().filter(piece -> piece.isInGame() || piece.isAtHome())
+                if (pieces.stream().filter(piece -> piece.isInGame() || piece.isAtHome())
                         .noneMatch(piece -> GameBoard.isMoveAllowed(this, piece, result))) {
                     GameBoard.nextTurn();
                     return;

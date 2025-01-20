@@ -5,19 +5,15 @@ import dev.hufeisen.maedn.Team;
 import dev.hufeisen.maedn.utils.ArmorStandUtils;
 import dev.hufeisen.maedn.utils.ColorUtils;
 import dev.hufeisen.maedn.utils.PlayerUtils;
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
-import org.bukkit.boss.BarStyle;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -129,7 +125,7 @@ public class GameBoard {
                 player.assignPiece(new GamePiece(team, i,
                         ArmorStandUtils.spawnAmorStand(startLocations.get(i),
                                 team.getColor(),
-                                "Piece " + (i+1),
+                                "Piece " + (i + 1),
                                 PlayerUtils.getSkull(player.getPlayer()))));
             }
             player.updateInventory();
@@ -165,8 +161,8 @@ public class GameBoard {
     public static void takePiece(GamePiece piece) {
 
         int freePosition;
-        for(freePosition = 0; freePosition < homeFields.get(piece.getTeam()).size(); freePosition++) {
-            if(getPieceAtStartPosition(freePosition, piece.getTeam()) == null) {
+        for (freePosition = 0; freePosition < homeFields.get(piece.getTeam()).size(); freePosition++) {
+            if (getPieceAtStartPosition(freePosition, piece.getTeam()) == null) {
                 break;
             }
         }
@@ -227,11 +223,11 @@ public class GameBoard {
 
         GamePiece startPiece = getPieceAtFieldPosition(getStartFieldEntrance().get(player.getTeam()));
 
-        if(startPiece == null) {
+        if (startPiece == null) {
             return false;
         }
 
-        if(startPiece.getTeam() != player.getTeam()) {
+        if (startPiece.getTeam() != player.getTeam()) {
             return false;
         }
 
@@ -250,7 +246,7 @@ public class GameBoard {
 
         players.forEach(player -> {
             player.updateInventory();
-            if(player.getTeam() == oldTeam) {
+            if (player.getTeam() == oldTeam) {
                 player.getPlayer().playSound(Sound.sound(Key.key("entity.armadillo.ambient"), Sound.Source.MASTER, 1f, 1f));
             } else {
                 player.getPlayer().playSound(Sound.sound(Key.key("entity.experience_orb.pickup"), Sound.Source.MASTER, 1f, 1f));
@@ -293,7 +289,7 @@ public class GameBoard {
 
                 GamePiece pieceAtField = getPieceAtFieldPosition(newPosition);
 
-                if(pieceAtField != null) {
+                if (pieceAtField != null) {
                     takePiece(pieceAtField);
                 }
 
@@ -307,10 +303,10 @@ public class GameBoard {
 
     public static void reset() {
 
-        if(players != null) {
+        if (players != null) {
             players.forEach(player -> {
                 player.resetPlayer();
-                if(bossBar == null) {
+                if (bossBar == null) {
                     return;
                 }
                 player.getPlayer().hideBossBar(bossBar);
@@ -331,7 +327,7 @@ public class GameBoard {
 
         Color color = currentTeam.getColor();
 
-        if(bossBar == null) {
+        if (bossBar == null) {
             bossBar = BossBar.bossBar(Component.text("It's Team ")
                             .append(Component.text(currentTeam.getDisplayName(), ColorUtils.colorToTextColor(color), TextDecoration.BOLD))
                             .append(Component.text("'s turn!")),

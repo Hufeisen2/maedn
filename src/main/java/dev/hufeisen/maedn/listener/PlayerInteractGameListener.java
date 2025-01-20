@@ -37,7 +37,7 @@ public class PlayerInteractGameListener implements Listener {
                         return;
                     }
 
-                    if(GameBoard.getStartFieldEntrance().get(gamePlayer.getTeam()) != piece.getPosition()
+                    if (GameBoard.getStartFieldEntrance().get(gamePlayer.getTeam()) != piece.getPosition()
                             && GameBoard.isPieceAtStartAndCanMove(gamePlayer)
                             && gamePlayer.getPieces().stream().anyMatch(GamePiece::isAtStart)) {
 

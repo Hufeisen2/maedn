@@ -3,7 +3,6 @@ package dev.hufeisen.maedn.utils;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Color;
-import org.bukkit.boss.BarColor;
 
 public class ColorUtils {
 

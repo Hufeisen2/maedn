@@ -5,7 +5,7 @@ public class DiceUtils {
     private static int nextDiceValue;
 
     public static int rollDice() {
-        if(nextDiceValue > 0) {
+        if (nextDiceValue > 0) {
             return nextDiceValue;
         }
         return (int) (Math.random() * 6 + 1);
