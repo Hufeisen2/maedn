@@ -97,9 +97,19 @@ public class GamePlayer {
 
             int entrancePosition = GameBoard.getStartFieldEntrance().get(team);
 
-            if (pieces.stream().anyMatch(GamePiece::isAtStart) && GameBoard.getPieceAtFieldPosition(entrancePosition) == null) {
-                GameBoard.movePieceToBoard(this, pieces.stream().filter(GamePiece::isAtStart).findFirst().get());
-                diceResult = 0;
+            if (pieces.stream().anyMatch(GamePiece::isAtStart)) {
+                GamePiece pieceAtStartField = GameBoard.getPieceAtFieldPosition(entrancePosition);
+
+                if(pieceAtStartField == null) {
+                    GameBoard.movePieceToBoard(this, pieces.stream().filter(GamePiece::isAtStart).findFirst().get());
+                    diceResult = 0;
+                } else if(pieceAtStartField.getTeam() != team) {
+                    GameBoard.takePiece(pieceAtStartField);
+                    GameBoard.movePieceToBoard(this, pieces.stream().filter(GamePiece::isAtStart).findFirst().get());
+                }
+                else {
+                    diceResult = result;
+                }
             } else {
                 diceResult = result;
             }
