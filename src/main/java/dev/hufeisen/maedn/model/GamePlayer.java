@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import javax.swing.text.StyledEditorKit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,7 +51,12 @@ public class GamePlayer {
         Player player = getPlayer();
 
         for (int i = 0; i < 9; i++) {
-            player.getInventory().setItem(i, new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
+            ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+            ItemMeta itemMeta = item.getItemMeta();
+            itemMeta.displayName(Component.empty());
+            itemMeta.lore(new ArrayList<>());
+            item.setItemMeta(itemMeta);
+            player.getInventory().setItem(i, item);
         }
 
         if (GameBoard.getCurrentTeam() == team) {
@@ -58,13 +64,17 @@ public class GamePlayer {
                 ItemStack item = new ItemStack(Material.ARMOR_STAND, i + 1);
                 ItemMeta meta = item.getItemMeta();
                 meta.displayName(Component.text("Piece " + (i + 1)).decoration(TextDecoration.ITALIC, false));
+                List<Component> lore = List.of(Component.text("Click to move piece!", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
+                meta.lore(lore);
                 item.setItemMeta(meta);
                 player.getInventory().setItem(i, item);
             }
 
             ItemStack diceItem = new ItemStack(Material.TARGET);
             ItemMeta diceMeta = diceItem.getItemMeta();
-            diceMeta.displayName(Component.text("Roll Dice").decoration(TextDecoration.ITALIC, false));
+            diceMeta.displayName(Component.text("Dice").decoration(TextDecoration.ITALIC, false));
+            List<Component> lore = List.of(Component.text("Click to roll dice!", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
+            diceMeta.lore(lore);
             diceItem.setItemMeta(diceMeta);
             player.getInventory().setItem(8, diceItem);
         }
