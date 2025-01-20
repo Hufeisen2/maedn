@@ -33,9 +33,17 @@ public class PlayerInteractGameListener implements Listener {
                 return;
             }
 
-            if (event.getItem().getType() == Material.TARGET && gamePlayer.isDiceRollAllowed() && gamePlayer.getDiceResult() == 0) {
-                int rand = DiceUtils.rollDice();
-                gamePlayer.setDiceResult(rand);
+            if (event.getItem().getType() == Material.TARGET) {
+
+                if(gamePlayer.isDiceRollAllowed() && gamePlayer.getDiceResult() == 0) {
+
+                    int rand = DiceUtils.rollDice();
+                    gamePlayer.setDiceResult(rand);
+
+                } else {
+                    player.sendMessage(Component.text("You've already rolled your dice!", NamedTextColor.RED));
+                }
+
             } else if (event.getItem().getType() == Material.ARMOR_STAND) {
 
                 GamePiece piece = gamePlayer.getPieces().get(event.getItem().getAmount() - 1);
