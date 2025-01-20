@@ -24,7 +24,6 @@ public class InventoryListener implements Listener {
 
     @EventHandler
     public void onInventoryDrag(InventoryDragEvent event) {
-        System.out.println("1");
         if(MaednMain.getGameState() != GameState.SETUP) {
             event.setCancelled(true);
         }
