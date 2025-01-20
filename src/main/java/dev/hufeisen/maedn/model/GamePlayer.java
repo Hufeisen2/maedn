@@ -59,6 +59,18 @@ public class GamePlayer {
         }
     }
 
+    public boolean isHomeComplete() {
+        int piecesAtHomeCount = (int) pieces.stream().filter(GamePiece::isAtHome).count();
+
+        for(int i = 0; i < GameBoard.getHomeFields(team).size() - piecesAtHomeCount; i++) {
+            if(GameBoard.getPieceAtHomePosition(i, team) != null) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public void setDiceResult(int result) {
         Player player = getPlayer();
         player.sendMessage(Component.text("You rolled a " + result, NamedTextColor.GREEN));
@@ -82,7 +94,7 @@ public class GamePlayer {
             if (isPieceInGame()) {
                 canRollDice = false;
                 diceResult = result;
-            } else if (diceRollCount < 2) {
+            } else if (diceRollCount < 2 && isHomeComplete()) {
                 canRollDice = true;
                 diceResult = 0;
                 diceRollCount++;
