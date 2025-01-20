@@ -94,13 +94,20 @@ public class GamePlayer {
 
             if (isPieceInGame() || !isHomeComplete()) {
                 canRollDice = false;
+
+                if(pieces.stream().filter(piece -> piece.isInGame() || piece.isAtHome())
+                        .noneMatch(piece -> GameBoard.isMoveAllowed(this, piece, result))) {
+                    GameBoard.nextTurn();
+                    return;
+                }
+
                 diceResult = result;
+
             } else if (diceRollCount < 2 && isHomeComplete()) {
                 canRollDice = true;
                 diceResult = 0;
                 diceRollCount++;
             } else {
-                canRollDice = true;
                 GameBoard.nextTurn();
             }
         }
