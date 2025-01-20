@@ -2,6 +2,8 @@ package dev.hufeisen.maedn.model;
 
 import dev.hufeisen.maedn.Team;
 import dev.hufeisen.maedn.utils.ColorUtils;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -105,6 +107,8 @@ public class GamePlayer {
 
     public void setDiceResult(int result) {
         Player player = getPlayer();
+
+        player.playSound(Sound.sound(Key.key("ui.stonecutter.take_result"), Sound.Source.MASTER, 1f, 1f));
 
         Component titleComponent = Component.text(result, NamedTextColor.GOLD, TextDecoration.BOLD);
         Title title = Title.title(titleComponent, Component.empty());
