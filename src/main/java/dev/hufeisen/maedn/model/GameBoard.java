@@ -5,10 +5,15 @@ import dev.hufeisen.maedn.Team;
 import dev.hufeisen.maedn.utils.ArmorStandUtils;
 import dev.hufeisen.maedn.utils.ColorUtils;
 import dev.hufeisen.maedn.utils.PlayerUtils;
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.bossbar.BossBar;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -235,6 +240,7 @@ public class GameBoard {
     }
 
     public static void nextTurn() {
+        Team oldTeam = currentTeam;
         while (!playingTeams.contains(currentTeam.getNext())) {
             currentTeam = currentTeam.getNext();
         }
@@ -242,7 +248,14 @@ public class GameBoard {
         currentTeam = currentTeam.getNext();
         GamePlayer.getGamePlayerByTeam(currentTeam).resetDice();
 
-        players.forEach(GamePlayer::updateInventory);
+        players.forEach(player -> {
+            player.updateInventory();
+            if(player.getTeam() == oldTeam) {
+                player.getPlayer().playSound(Sound.sound(Key.key("entity.armadillo.ambient"), Sound.Source.MASTER, 1f, 1f));
+            } else {
+                player.getPlayer().playSound(Sound.sound(Key.key("entity.experience_orb.pickup"), Sound.Source.MASTER, 1f, 1f));
+            }
+        });
 
         updateBossBar();
 
@@ -320,7 +333,7 @@ public class GameBoard {
 
         if(bossBar == null) {
             bossBar = BossBar.bossBar(Component.text("It's Team ")
-                            .append(Component.text(currentTeam.getDisplayName(), ColorUtils.colorToTextColor(color)))
+                            .append(Component.text(currentTeam.getDisplayName(), ColorUtils.colorToTextColor(color), TextDecoration.BOLD))
                             .append(Component.text("'s turn!")),
                     1f,
                     ColorUtils.colorToBarColor(color),
@@ -328,7 +341,7 @@ public class GameBoard {
         } else {
             bossBar.color(ColorUtils.colorToBarColor(color));
             bossBar.name(Component.text("It's Team ")
-                    .append(Component.text(currentTeam.getDisplayName(), ColorUtils.colorToTextColor(color)))
+                    .append(Component.text(currentTeam.getDisplayName(), ColorUtils.colorToTextColor(color), TextDecoration.BOLD))
                     .append(Component.text("'s turn!")));
         }
 
