@@ -12,6 +12,7 @@ import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -156,6 +157,18 @@ public class GameBoard {
         winner.ifPresent(gamePlayer -> {
 
             Bukkit.broadcast(Component.text(gamePlayer.getPlayer().getName() + " is the winner!", NamedTextColor.GREEN, TextDecoration.BOLD));
+
+            Component titleComponent = Component.text("Congratulations!", NamedTextColor.GOLD);
+            Component subtitleComponent = Component.text("You have won!", NamedTextColor.GREEN);
+            gamePlayer.getPlayer().showTitle(Title.title(titleComponent, subtitleComponent));
+
+            players.stream().filter(player -> player.getUuid().equals(gamePlayer.getUuid())).forEach(loser -> {
+
+                Component loserTitleComponent = Component.text("You lost!", NamedTextColor.RED);
+                Component loserSubtitleComponent = Component.text("Maybe you'll have more luck next time!");
+                loser.getPlayer().showTitle(Title.title(loserTitleComponent, loserSubtitleComponent));
+
+            });
 
             GameBoard.reset();
 

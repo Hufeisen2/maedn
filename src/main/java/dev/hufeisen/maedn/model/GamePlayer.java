@@ -190,6 +190,10 @@ public class GamePlayer {
         return Bukkit.getPlayer(UUID.fromString(uuid));
     }
 
+    public String getUuid() {
+        return uuid;
+    }
+
     public static GamePlayer getGamePlayer(UUID uuid) {
         if (!players.containsKey(uuid.toString())) {
             players.put(uuid.toString(), new GamePlayer(uuid));
