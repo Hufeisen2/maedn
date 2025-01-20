@@ -114,7 +114,7 @@ public class GameBoard {
             Team team = player.getTeam();
             List<Location> startLocations = startFields.get(team);
             for (int i = 0; i < startLocations.size(); i++) {
-                player.assignPiece(new GamePiece(team, i, ArmorStandUtils.spawnAmorStand(startLocations.get(i), team.getColor())));
+                player.assignPiece(new GamePiece(team, i, ArmorStandUtils.spawnAmorStand(startLocations.get(i), team.getColor(), "Piece " + (i+1))));
             }
             player.updateInventory();
         });
