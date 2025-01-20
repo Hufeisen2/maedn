@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 
 public class DamageAndBlockListener implements Listener {
 
@@ -24,6 +25,13 @@ public class DamageAndBlockListener implements Listener {
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
+        if (MaednMain.getGameState() != GameState.SETUP) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerDropItem(PlayerDropItemEvent event) {
         if (MaednMain.getGameState() != GameState.SETUP) {
             event.setCancelled(true);
         }
