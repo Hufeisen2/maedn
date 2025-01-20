@@ -66,9 +66,10 @@ public class GamePlayer {
         }
     }
 
+    // true if all pieces in home are at last possible position
     public boolean isHomeComplete() {
 
-        int piecesAtHomeCount = (int) pieces.stream().filter(GamePiece::isAtHome).count();
+        int piecesAtHomeCount = getPiecesAtHomeCount();
 
         for(int i = GameBoard.getHomeFields(team).size()-1; i >= GameBoard.getHomeFields(team).size() - piecesAtHomeCount; i--) {
             if(GameBoard.getPieceAtHomePosition(i, team) == null) {
@@ -77,6 +78,15 @@ public class GamePlayer {
         }
 
         return true;
+    }
+
+    // True if all fields in the home are used
+    public boolean isHomeFull() {
+        return isHomeComplete() && GameBoard.getHomeFields(team).size() == getPiecesAtHomeCount();
+    }
+
+    private int getPiecesAtHomeCount() {
+        return  (int) pieces.stream().filter(GamePiece::isAtHome).count();
     }
 
     public void setDiceResult(int result) {

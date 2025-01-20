@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 public class GameBoard {
 
@@ -126,6 +127,20 @@ public class GameBoard {
         piece.setAtHome(false);
         piece.getArmorStand().teleport(positionToLocation(piece.getPosition()));
         player.updateInventory();
+    }
+
+    public static void checkWin() {
+
+        Optional<GamePlayer> winner = players.stream().filter(GamePlayer::isHomeFull).findFirst();
+
+        winner.ifPresent(gamePlayer -> {
+
+            Bukkit.broadcast(Component.text(gamePlayer.getPlayer().getName() + " is the winner!", NamedTextColor.GREEN, TextDecoration.BOLD));
+
+            GameBoard.reset();
+
+        });
+
     }
 
     public static void takePiece(GamePiece piece) {
@@ -241,6 +256,8 @@ public class GameBoard {
                 piece.getArmorStand().teleport(positionToLocation(piece.getPosition()));
             }
         }
+
+        checkWin();
     }
 
     public static void reset() {
