@@ -66,7 +66,9 @@ public class PlayerInteractGameListener implements Listener {
                     player.sendMessage(Component.text("This move is not possible!", NamedTextColor.RED));
                 }
             }
+        }
 
+        if(MaednMain.getGameState() != GameState.SETUP) {
             event.setCancelled(true);
         }
     }

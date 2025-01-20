@@ -23,7 +23,6 @@ public class StartGameCommand implements CommandExecutor {
 
         GameBoard.init();
         GameBoard.assignTeams();
-        MaednMain.setGameState(GameState.IN_GAME);
         GameBoard.start();
 
         return true;

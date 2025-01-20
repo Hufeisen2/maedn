@@ -23,7 +23,7 @@ public class SetupCommand implements CommandExecutor {
 
         GameState gameState = MaednMain.getGameState();
 
-        if (gameState == GameState.IN_GAME || gameState == GameState.END) {
+        if (gameState == GameState.IN_GAME) {
             commandSender.sendMessage(Component.text("You can only use this command while game state is LOBBY", NamedTextColor.RED));
             return true;
         }

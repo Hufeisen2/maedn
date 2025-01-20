@@ -4,6 +4,7 @@ import dev.hufeisen.maedn.api.particle.ParticleAPI;
 import dev.hufeisen.maedn.commands.SetDiceCommand;
 import dev.hufeisen.maedn.commands.SetupCommand;
 import dev.hufeisen.maedn.commands.StartGameCommand;
+import dev.hufeisen.maedn.listener.DamageListener;
 import dev.hufeisen.maedn.listener.InventoryListener;
 import dev.hufeisen.maedn.listener.PlayerInteractGameListener;
 import dev.hufeisen.maedn.listener.PlayerInteractSetupListener;
@@ -49,6 +50,7 @@ public final class MaednMain extends JavaPlugin {
         getCommand("start").setExecutor(new StartGameCommand());
         getCommand("setdice").setExecutor(new SetDiceCommand());
 
+        pluginManager.registerEvents(new DamageListener(), this);
         pluginManager.registerEvents(new InventoryListener(), this);
         pluginManager.registerEvents(new PlayerInteractSetupListener(), this);
         pluginManager.registerEvents(new PlayerInteractGameListener(), this);

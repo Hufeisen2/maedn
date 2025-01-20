@@ -1,6 +1,7 @@
 package dev.hufeisen.maedn.model;
 
 import dev.hufeisen.maedn.GameLoop;
+import dev.hufeisen.maedn.GameState;
 import dev.hufeisen.maedn.MaednMain;
 import dev.hufeisen.maedn.Team;
 import dev.hufeisen.maedn.utils.ArmorStandUtils;
@@ -122,8 +123,9 @@ public class GameBoard {
 
     public static void start() {
 
-        //Set up the pieces and update the player inventories
+        MaednMain.setGameState(GameState.IN_GAME);
 
+        //Set up the pieces and update the player inventories
         players.forEach(player -> {
 
             Player realPlayer = player.getPlayer();
@@ -331,6 +333,8 @@ public class GameBoard {
     }
 
     public static void reset() {
+
+        MaednMain.setGameState(GameState.LOBBY);
 
         if (gameLoop != null) {
             gameLoop.cancel();
