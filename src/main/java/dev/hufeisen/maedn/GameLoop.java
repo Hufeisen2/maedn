@@ -5,6 +5,7 @@ import dev.hufeisen.maedn.api.particle.templates.BeamEffect;
 import dev.hufeisen.maedn.model.GameBoard;
 import dev.hufeisen.maedn.model.GamePiece;
 import dev.hufeisen.maedn.model.GamePlayer;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -24,15 +25,17 @@ public class GameLoop implements Runnable {
 
             GamePlayer currentPlayer = currentPlayerOptional.get();
 
+            if (currentPlayer.getDiceResult() <= 0) {
+                return;
+            }
+
+            currentPlayer.getPlayer().sendActionBar(Component.text("You rolled a ").append(Component.text(currentPlayer.getDiceResult())));
+
             displayPiecePath(currentPlayer, currentPlayer.getPlayer().getInventory().getHeldItemSlot());
         }
     }
 
     private void displayPiecePath(GamePlayer player, int itemSlot) {
-
-        if (player.getDiceResult() <= 0) {
-            return;
-        }
 
         ItemStack item = player.getPlayer().getInventory().getItem(itemSlot);
 
