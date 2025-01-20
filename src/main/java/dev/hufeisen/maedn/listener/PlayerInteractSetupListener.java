@@ -1,11 +1,11 @@
 package dev.hufeisen.maedn.listener;
 
 import dev.hufeisen.maedn.MaednMain;
-import dev.hufeisen.maedn.gui.GUIInventory;
-import dev.hufeisen.maedn.gui.GUIInventoryBuilder;
-import dev.hufeisen.maedn.gui.GUIItem;
-import dev.hufeisen.maedn.gui.GUIItemBuilder;
-import dev.hufeisen.maedn.gui.events.GUIItemEvents;
+import dev.hufeisen.maedn.api.gui.GUIInventory;
+import dev.hufeisen.maedn.api.gui.GUIInventoryBuilder;
+import dev.hufeisen.maedn.api.gui.GUIItem;
+import dev.hufeisen.maedn.api.gui.GUIItemBuilder;
+import dev.hufeisen.maedn.api.gui.events.GUIItemEvents;
 import dev.hufeisen.maedn.model.GamePlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;

@@ -1,7 +1,7 @@
-package dev.hufeisen.maedn.gui.events;
+package dev.hufeisen.maedn.api.gui.events;
 
-import dev.hufeisen.maedn.gui.GUIInventory;
-import dev.hufeisen.maedn.gui.GUIItem;
+import dev.hufeisen.maedn.api.gui.GUIInventory;
+import dev.hufeisen.maedn.api.gui.GUIItem;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 /**

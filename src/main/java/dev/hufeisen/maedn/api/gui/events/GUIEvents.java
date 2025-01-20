@@ -1,6 +1,6 @@
-package dev.hufeisen.maedn.gui.events;
+package dev.hufeisen.maedn.api.gui.events;
 
-import dev.hufeisen.maedn.gui.GUIInventory;
+import dev.hufeisen.maedn.api.gui.GUIInventory;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;

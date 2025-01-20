@@ -1,10 +1,12 @@
 package dev.hufeisen.maedn.model;
 
+import dev.hufeisen.maedn.GameLoop;
 import dev.hufeisen.maedn.MaednMain;
 import dev.hufeisen.maedn.Team;
 import dev.hufeisen.maedn.utils.ArmorStandUtils;
 import dev.hufeisen.maedn.utils.ColorUtils;
 import dev.hufeisen.maedn.utils.PlayerUtils;
+import io.papermc.paper.threadedregions.scheduler.AsyncScheduler;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
@@ -16,6 +18,8 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,12 +42,15 @@ public class GameBoard {
 
     private static BossBar bossBar;
 
+    private static BukkitTask gameLoop;
+
     public static void init() {
 
         FileConfiguration config = MaednMain.getInstance().getConfig();
 
         reset();
 
+        gameLoop = Bukkit.getScheduler().runTaskTimerAsynchronously(MaednMain.getInstance(), new GameLoop(), 0, 2);
         //Set up fields
         int fieldSize = config.getInt("fields.size");
         for (int i = 0; i < fieldSize; i++) {
@@ -94,13 +101,13 @@ public class GameBoard {
             }
         }
 
-        currentTeam = Team.RED;
+        currentTeam = Team.GREEN;
     }
 
     // Assign every player to one team if there are enough teams available
     public static void assignTeams() {
         List<Team> availableTeams = new ArrayList<>(Team.getEnabledTeams());
-
+        availableTeams = availableTeams.reversed();
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (availableTeams.isEmpty()) {
                 break;
@@ -303,6 +310,10 @@ public class GameBoard {
 
     public static void reset() {
 
+        if(gameLoop != null) {
+            gameLoop.cancel();
+        }
+
         if (players != null) {
             players.forEach(player -> {
                 player.resetPlayer();
@@ -356,20 +367,32 @@ public class GameBoard {
         return players.stream().flatMap(player -> player.getPieces().stream()).filter(piece -> piece.isAtHome() && piece.getTeam() == team && piece.getPosition() == position).findFirst().orElse(null);
     }
 
-    private static Location homePositionToLocation(int position, Team team) {
+    public static Location homePositionToLocation(int position, Team team) {
         return homeFields.get(team).get(position).toCenterLocation().add(0, 2, 0);
     }
 
-    private static Location positionToLocation(int position) {
+    public static Location positionToLocation(int position) {
         return fields.get(position).toCenterLocation().add(0, 2, 0);
+    }
+
+    public static int getFieldSize() {
+        return fields.size();
     }
 
     public static Team getCurrentTeam() {
         return currentTeam;
     }
 
+    public static List<GamePlayer> getPlayers() {
+        return players;
+    }
+
     public static HashMap<Team, Integer> getStartFieldEntrance() {
         return startFieldEntrance;
+    }
+
+    public static HashMap<Team, Integer> getHomeFieldEntrance() {
+        return homeFieldEntrance;
     }
 
     public static List<Location> getHomeFields(Team team) {

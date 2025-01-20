@@ -1,5 +1,6 @@
 package dev.hufeisen.maedn;
 
+import dev.hufeisen.maedn.api.particle.ParticleAPI;
 import dev.hufeisen.maedn.commands.SetDiceCommand;
 import dev.hufeisen.maedn.commands.SetupCommand;
 import dev.hufeisen.maedn.commands.StartGameCommand;
@@ -19,6 +20,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.List;
 
@@ -26,6 +28,8 @@ public final class MaednMain extends JavaPlugin {
 
     private static MaednMain instance;
     private GameState gameState = GameState.LOBBY;
+
+    private BukkitTask particleRunnable;
 
     @Override
     public void onEnable() {
@@ -48,11 +52,16 @@ public final class MaednMain extends JavaPlugin {
         pluginManager.registerEvents(new InventoryListener(), this);
         pluginManager.registerEvents(new PlayerInteractSetupListener(), this);
         pluginManager.registerEvents(new PlayerInteractGameListener(), this);
+
+        particleRunnable = getServer().getScheduler().runTaskTimerAsynchronously(this, ParticleAPI::updateParticle, 0, 2);
     }
 
     @Override
     public void onDisable() {
         GameBoard.reset();
+        if(particleRunnable != null) {
+            particleRunnable.cancel();
+        }
     }
 
     public static MaednMain getInstance() {

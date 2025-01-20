@@ -1,8 +1,8 @@
-package dev.hufeisen.maedn.gui;
+package dev.hufeisen.maedn.api.gui;
 
-import dev.hufeisen.maedn.gui.events.GUIEvents;
-import dev.hufeisen.maedn.gui.utils.GUIItemType;
-import dev.hufeisen.maedn.gui.utils.GUIType;
+import dev.hufeisen.maedn.api.gui.events.GUIEvents;
+import dev.hufeisen.maedn.api.gui.utils.GUIItemType;
+import dev.hufeisen.maedn.api.gui.utils.GUIType;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

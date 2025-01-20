@@ -1,6 +1,6 @@
 package dev.hufeisen.maedn.listener;
 
-import dev.hufeisen.maedn.gui.GUIInventory;
+import dev.hufeisen.maedn.api.gui.GUIInventory;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;

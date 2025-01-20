@@ -1,4 +1,4 @@
-package dev.hufeisen.maedn.gui.utils;
+package dev.hufeisen.maedn.api.gui.utils;
 
 /**
  * An enum with all GUIItemTypes

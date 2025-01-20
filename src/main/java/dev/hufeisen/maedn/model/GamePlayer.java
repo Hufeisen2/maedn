@@ -93,13 +93,16 @@ public class GamePlayer {
         Player player = getPlayer();
         player.sendMessage(Component.text("You rolled a " + result, NamedTextColor.GREEN));
 
+        //Process dice result 6
         if (result == 6) {
 
             int entrancePosition = GameBoard.getStartFieldEntrance().get(team);
 
+            //Check if there is a piece at the start
             if (pieces.stream().anyMatch(GamePiece::isAtStart)) {
                 GamePiece pieceAtStartField = GameBoard.getPieceAtFieldPosition(entrancePosition);
 
+                //Is the start entrance free or can it be taken?
                 if (pieceAtStartField == null) {
                     GameBoard.movePieceToBoard(this, pieces.stream().filter(GamePiece::isAtStart).findFirst().get());
                     diceResult = 0;
@@ -118,9 +121,11 @@ public class GamePlayer {
             player.sendMessage(Component.text("You can roll again", NamedTextColor.GREEN));
         } else {
 
+            //when there is a piece in the game or the home is not complete, you can only throw once
             if (isPieceInGame() || !isHomeComplete()) {
                 canRollDice = false;
 
+                //No piece can move the dice result: skip the turn
                 if (pieces.stream().filter(piece -> piece.isInGame() || piece.isAtHome())
                         .noneMatch(piece -> GameBoard.isMoveAllowed(this, piece, result))) {
                     GameBoard.nextTurn();
@@ -130,10 +135,12 @@ public class GamePlayer {
                 diceResult = result;
 
             } else if (diceRollCount < 2 && isHomeComplete()) {
+                //allow throwing the dice three times when no piece in game and home is complete
                 canRollDice = true;
                 diceResult = 0;
                 diceRollCount++;
             } else {
+                //Skip turn when there is no piece in the game
                 GameBoard.nextTurn();
             }
         }
