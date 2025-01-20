@@ -79,14 +79,10 @@ public class GameLoop implements Runnable {
             for (int i = piece.getPosition() + 1; i <= piece.getPosition() + player.getDiceResult(); i++) {
 
                 int fieldIndex = i;
-                if (i >= GameBoard.getFieldSize()) {
-                    fieldIndex = i - GameBoard.getFieldSize();
-                }
 
                 Location startLocation;
                 Location endLocation;
                 if (fieldIndex > entrancePosition && piece.getPosition() <= entrancePosition) {
-
                     int homePosition = fieldIndex - entrancePosition - 1;
                     if (isPrevHome) {
                         startLocation = GameBoard.homePositionToLocation(prevPosition, team);
@@ -99,6 +95,11 @@ public class GameLoop implements Runnable {
                     prevPosition = homePosition;
 
                 } else {
+
+                    if (i >= GameBoard.getFieldSize()) {
+                        fieldIndex = i - GameBoard.getFieldSize();
+                    }
+
                     startLocation = GameBoard.positionToLocation(prevPosition);
                     endLocation = GameBoard.positionToLocation(fieldIndex);
                     prevPosition = fieldIndex;
