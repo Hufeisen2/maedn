@@ -41,12 +41,14 @@ public class GameBoard {
         playingTeams = new ArrayList<>();
         players = new ArrayList<>();
 
+        //Set up fields
         int fieldSize = config.getInt("fields.size");
         for (int i = 0; i < fieldSize; i++) {
             String locationPath = "fields." + i;
             fields.add(config.getLocation(locationPath));
         }
 
+        //Setup team locations
         for (Team team : Team.getEnabledTeams()) {
 
             int startFieldSize = config.getInt(team.getKey() + "_start.size");
@@ -92,6 +94,7 @@ public class GameBoard {
         currentTeam = Team.RED;
     }
 
+    // Assign every player to one team if there are enough teams available
     public static void assignTeams() {
         List<Team> availableTeams = new ArrayList<>(Team.getEnabledTeams());
 
@@ -109,6 +112,9 @@ public class GameBoard {
     }
 
     public static void start() {
+
+        //Set up the pieces and update the player inventories
+
         players.forEach(player -> {
             Team team = player.getTeam();
             List<Location> startLocations = startFields.get(team);
@@ -130,22 +136,24 @@ public class GameBoard {
 
     public static boolean isMoveAllowed(GamePlayer player, GamePiece piece, int steps) {
 
+        //a 0-step move is not possible
         if (steps <= 0) {
             return false;
         }
 
         int homeEntrance = homeFieldEntrance.get(player.getTeam());
-
+        //if a piece is at the start, a move is not possible
         if (piece.isAtStart()) {
             return false;
         } else if (piece.isAtHome()) {
-
-            if (piece.getPosition() + steps > homeFields.size() || getPieceAtHomePosition(piece.getPosition() + steps, piece.getTeam()) != null) {
+            //Check if a move is possible in home
+            if (piece.getPosition() + steps > homeFields.get(player.getTeam()).size() || getPieceAtHomePosition(piece.getPosition() + steps, piece.getTeam()) != null) {
                 return false;
             }
             return true;
 
         } else {
+            //Check if a move is possible on the board
             if (piece.getPosition() + steps > homeEntrance && piece.getPosition() < homeEntrance) {
 
                 int remainingSteps = steps - (homeEntrance - piece.getPosition()) - 1;
@@ -154,6 +162,7 @@ public class GameBoard {
             }
         }
 
+        //Check if there is already another piece at the desired field on the board and if it is from the same team
         int positionToCheck = piece.getPosition() + steps;
 
         if (positionToCheck >= fields.size()) {
@@ -183,6 +192,7 @@ public class GameBoard {
 
         int homeEntrance = homeFieldEntrance.get(player.getTeam());
 
+        //Check if piece can enter its home
         if (piece.getPosition() + steps > homeEntrance && piece.getPosition() < homeEntrance) {
 
             int remainingSteps = steps - (homeEntrance - piece.getPosition()) - 1;
@@ -194,6 +204,7 @@ public class GameBoard {
 
             int newPosition = piece.getPosition() + steps;
 
+            //move piece at home
             if (piece.isAtHome()) {
 
                 piece.setPosition(newPosition);
@@ -201,6 +212,7 @@ public class GameBoard {
 
             } else {
 
+                //move piece on board
                 if (newPosition >= fields.size()) {
                     newPosition = newPosition - fields.size();
                 }
