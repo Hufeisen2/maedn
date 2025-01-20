@@ -8,6 +8,7 @@ import dev.hufeisen.maedn.model.GamePlayer;
 import dev.hufeisen.maedn.utils.DiceUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -43,6 +44,11 @@ public class PlayerInteractGameListener implements Listener {
                     return;
                 }
 
+                if(gamePlayer.getDiceResult() <= 0) {
+                    player.sendMessage(Component.text("You have to roll the dice first!", NamedTextColor.RED));
+                    return;
+                }
+
                 if (GameBoard.getStartFieldEntrance().get(gamePlayer.getTeam()) != piece.getPosition()
                         && GameBoard.isPieceAtStartAndCanMove(gamePlayer)
                         && gamePlayer.getPieces().stream().anyMatch(GamePiece::isAtStart)) {
@@ -57,7 +63,7 @@ public class PlayerInteractGameListener implements Listener {
                         GameBoard.nextTurn();
                     }
                 } else {
-                    player.sendMessage("You can't move this piece.");
+                    player.sendMessage(Component.text("This move is not possible!", NamedTextColor.RED));
                 }
             }
 

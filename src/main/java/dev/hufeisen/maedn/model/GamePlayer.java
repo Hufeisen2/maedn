@@ -1,9 +1,11 @@
 package dev.hufeisen.maedn.model;
 
 import dev.hufeisen.maedn.Team;
+import dev.hufeisen.maedn.utils.ColorUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -91,7 +93,15 @@ public class GamePlayer {
 
     public void setDiceResult(int result) {
         Player player = getPlayer();
-        player.sendMessage(Component.text("You rolled a " + result, NamedTextColor.GREEN));
+
+        Component titleComponent = Component.text(result, NamedTextColor.GOLD, TextDecoration.BOLD);
+        Title title = Title.title(titleComponent, Component.empty());
+        player.showTitle(title);
+
+        Bukkit.broadcast(Component.text("Team ")
+                        .append(Component.text(team.getDisplayName(), ColorUtils.colorToTextColor(team.getColor())))
+                        .append(Component.text(" rolled a "))
+                        .append(Component.text(result, NamedTextColor.GOLD, TextDecoration.BOLD)));
 
         //Process dice result 6
         if (result == 6) {

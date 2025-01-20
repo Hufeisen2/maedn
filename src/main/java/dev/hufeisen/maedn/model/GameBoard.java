@@ -260,7 +260,9 @@ public class GameBoard {
 
         updateBossBar();
 
-        Bukkit.broadcast(Component.text("It's now team " + currentTeam.getDisplayName() + "'s turn", NamedTextColor.GREEN));
+        Bukkit.broadcast(Component.text("It's now team ")
+                .append(Component.text(currentTeam.getDisplayName(), ColorUtils.colorToTextColor(currentTeam.getColor())))
+                .append(Component.text("'s turn")));
     }
 
     public static void movePiece(GamePlayer player, GamePiece piece, int steps) {
