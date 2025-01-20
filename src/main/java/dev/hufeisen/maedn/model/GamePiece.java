@@ -19,6 +19,10 @@ public class GamePiece {
         this.armorStand = armorStand;
     }
 
+    public void destroy() {
+        armorStand.setHealth(0);
+    }
+
     public int getPosition() {
         return position;
     }

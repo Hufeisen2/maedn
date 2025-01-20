@@ -33,13 +33,7 @@ public class GameBoard {
 
         FileConfiguration config = MaednMain.getInstance().getConfig();
 
-        fields = new ArrayList<>();
-        startFields = new HashMap<>();
-        homeFields = new HashMap<>();
-        startFieldEntrance = new HashMap<>();
-        homeFieldEntrance = new HashMap<>();
-        playingTeams = new ArrayList<>();
-        players = new ArrayList<>();
+        reset();
 
         //Set up fields
         int fieldSize = config.getInt("fields.size");
@@ -224,6 +218,22 @@ public class GameBoard {
 
             }
         }
+    }
+
+    public static void reset() {
+
+        if(players != null) {
+            players.forEach(GamePlayer::resetPlayer);
+        }
+
+        fields = new ArrayList<>();
+        startFields = new HashMap<>();
+        homeFields = new HashMap<>();
+        startFieldEntrance = new HashMap<>();
+        homeFieldEntrance = new HashMap<>();
+        playingTeams = new ArrayList<>();
+        players = new ArrayList<>();
+
     }
 
     public static GamePiece getPieceAtFieldPosition(int position) {

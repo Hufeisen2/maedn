@@ -35,6 +35,13 @@ public class GamePlayer {
         this.uuid = uuid.toString();
     }
 
+    public void resetPlayer() {
+        pieces.forEach(GamePiece::destroy);
+        pieces = new ArrayList<>();
+        team = null;
+        resetDice();
+    }
+
     public void updateInventory() {
         Player player = getPlayer();
 

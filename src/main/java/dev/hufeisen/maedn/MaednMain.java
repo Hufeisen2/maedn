@@ -6,6 +6,7 @@ import dev.hufeisen.maedn.commands.StartGameCommand;
 import dev.hufeisen.maedn.listener.InventoryListener;
 import dev.hufeisen.maedn.listener.PlayerInteractGameListener;
 import dev.hufeisen.maedn.listener.PlayerInteractSetupListener;
+import dev.hufeisen.maedn.model.GameBoard;
 import dev.hufeisen.maedn.model.GamePlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -51,7 +52,7 @@ public final class MaednMain extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        GameBoard.reset();
     }
 
     public static MaednMain getInstance() {
