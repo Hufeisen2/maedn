@@ -125,6 +125,9 @@ public class GameBoard {
         //Set up the pieces and update the player inventories
 
         players.forEach(player -> {
+
+            Player realPlayer = player.getPlayer();
+
             Team team = player.getTeam();
             List<Location> startLocations = startFields.get(team);
             for (int i = 0; i < startLocations.size(); i++) {
@@ -132,9 +135,15 @@ public class GameBoard {
                         ArmorStandUtils.spawnAmorStand(startLocations.get(i),
                                 team.getColor(),
                                 "Piece " + (i + 1),
-                                PlayerUtils.getSkull(player.getPlayer()))));
+                                PlayerUtils.getSkull(realPlayer))));
             }
             player.updateInventory();
+
+            Component titleComponent = Component.text("Let's go!", NamedTextColor.GOLD);
+            Component subtitleComponent = Component.text("Don't get angry!");
+
+            realPlayer.showTitle(Title.title(titleComponent, subtitleComponent));
+            realPlayer.playSound(Sound.sound(Key.key("entity.experience_orb.pickup"), Sound.Source.MASTER, 1f, 1f));
         });
 
         updateBossBar();
