@@ -185,6 +185,9 @@ public class GameBoard {
 
         currentTeam = currentTeam.getNext();
         GamePlayer.getGamePlayerByTeam(currentTeam).resetDice();
+
+        players.forEach(GamePlayer::updateInventory);
+
         Bukkit.broadcast(Component.text("It's now team " + currentTeam.getDisplayName() + "'s turn", NamedTextColor.GREEN));
     }
 
