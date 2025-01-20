@@ -144,7 +144,7 @@ public class GameBoard {
             Component subtitleComponent = Component.text("Don't get angry!");
 
             realPlayer.showTitle(Title.title(titleComponent, subtitleComponent));
-            realPlayer.playSound(Sound.sound(Key.key("entity.experience_orb.pickup"), Sound.Source.MASTER, 1f, 1f));
+            realPlayer.playSound(Sound.sound(Key.key("entity.player.levelup"), Sound.Source.MASTER, 1f, 1f));
         });
 
         updateBossBar();
@@ -166,11 +166,14 @@ public class GameBoard {
 
         winner.ifPresent(gamePlayer -> {
 
-            Bukkit.broadcast(Component.text(gamePlayer.getPlayer().getName() + " is the winner!", NamedTextColor.GREEN, TextDecoration.BOLD));
+            Player realPlayer = gamePlayer.getPlayer();
+
+            Bukkit.broadcast(Component.text(realPlayer.getName() + " is the winner!", NamedTextColor.GREEN, TextDecoration.BOLD));
 
             Component titleComponent = Component.text("Congratulations!", NamedTextColor.GOLD);
             Component subtitleComponent = Component.text("You have won!", NamedTextColor.GREEN);
-            gamePlayer.getPlayer().showTitle(Title.title(titleComponent, subtitleComponent));
+            realPlayer.showTitle(Title.title(titleComponent, subtitleComponent));
+            realPlayer.playSound(Sound.sound(Key.key("entity.player.levelup"), Sound.Source.MASTER, 1f, 1f));
 
             players.stream().filter(player -> player.getUuid().equals(gamePlayer.getUuid())).forEach(loser -> {
 
@@ -264,7 +267,6 @@ public class GameBoard {
     }
 
     public static void nextTurn() {
-        Team oldTeam = currentTeam;
         while (!playingTeams.contains(currentTeam.getNext())) {
             currentTeam = currentTeam.getNext();
         }
@@ -274,10 +276,10 @@ public class GameBoard {
 
         players.forEach(player -> {
             player.updateInventory();
-            if (player.getTeam() == oldTeam) {
-                player.getPlayer().playSound(Sound.sound(Key.key("entity.armadillo.ambient"), Sound.Source.MASTER, 1f, 1f));
-            } else {
+            if (player.getTeam() == currentTeam) {
                 player.getPlayer().playSound(Sound.sound(Key.key("entity.experience_orb.pickup"), Sound.Source.MASTER, 1f, 1f));
+            } else {
+                player.getPlayer().playSound(Sound.sound(Key.key("entity.enderman.hurt"), Sound.Source.MASTER, 1f, 1f));
             }
         });
 

@@ -6,6 +6,8 @@ import dev.hufeisen.maedn.model.GameBoard;
 import dev.hufeisen.maedn.model.GamePiece;
 import dev.hufeisen.maedn.model.GamePlayer;
 import dev.hufeisen.maedn.utils.DiceUtils;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -40,6 +42,7 @@ public class PlayerInteractGameListener implements Listener {
                     gamePlayer.setDiceResult(rand);
 
                 } else {
+                    player.playSound(Sound.sound(Key.key("entity.villager.no"), Sound.Source.MASTER, 1f, 1f));
                     player.sendMessage(Component.text("You've already rolled your dice!", NamedTextColor.RED));
                 }
 
@@ -52,6 +55,7 @@ public class PlayerInteractGameListener implements Listener {
                 }
 
                 if (gamePlayer.getDiceResult() <= 0) {
+                    player.playSound(Sound.sound(Key.key("entity.villager.no"), Sound.Source.MASTER, 1f, 1f));
                     player.sendMessage(Component.text("You have to roll the dice first!", NamedTextColor.RED));
                     return;
                 }
@@ -60,6 +64,7 @@ public class PlayerInteractGameListener implements Listener {
                         && GameBoard.isPieceAtStartAndCanMove(gamePlayer)
                         && gamePlayer.getPieces().stream().anyMatch(GamePiece::isAtStart)) {
 
+                    player.playSound(Sound.sound(Key.key("entity.villager.no"), Sound.Source.MASTER, 1f, 1f));
                     player.sendMessage(Component.text("You must clear your starting field!", NamedTextColor.RED));
 
                 } else if (GameBoard.isMoveAllowed(gamePlayer, piece, gamePlayer.getDiceResult())) {
@@ -70,6 +75,7 @@ public class PlayerInteractGameListener implements Listener {
                         GameBoard.nextTurn();
                     }
                 } else {
+                    player.playSound(Sound.sound(Key.key("entity.villager.no"), Sound.Source.MASTER, 1f, 1f));
                     player.sendMessage(Component.text("This move is not possible!", NamedTextColor.RED));
                 }
             }
