@@ -42,6 +42,8 @@ public class GamePlayer {
         pieces = new ArrayList<>();
         team = null;
         resetDice();
+
+        getPlayer().getInventory().clear();
     }
 
     public void updateInventory() {
