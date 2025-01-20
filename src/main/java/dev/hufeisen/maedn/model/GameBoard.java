@@ -3,6 +3,7 @@ package dev.hufeisen.maedn.model;
 import dev.hufeisen.maedn.MaednMain;
 import dev.hufeisen.maedn.Team;
 import dev.hufeisen.maedn.utils.ArmorStandUtils;
+import dev.hufeisen.maedn.utils.PlayerUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -114,7 +115,11 @@ public class GameBoard {
             Team team = player.getTeam();
             List<Location> startLocations = startFields.get(team);
             for (int i = 0; i < startLocations.size(); i++) {
-                player.assignPiece(new GamePiece(team, i, ArmorStandUtils.spawnAmorStand(startLocations.get(i), team.getColor(), "Piece " + (i+1))));
+                player.assignPiece(new GamePiece(team, i,
+                        ArmorStandUtils.spawnAmorStand(startLocations.get(i),
+                                team.getColor(),
+                                "Piece " + (i+1),
+                                PlayerUtils.getSkull(player.getPlayer()))));
             }
             player.updateInventory();
         });
