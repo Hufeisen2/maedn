@@ -3,12 +3,16 @@ package dev.hufeisen.maedn.model;
 import dev.hufeisen.maedn.MaednMain;
 import dev.hufeisen.maedn.Team;
 import dev.hufeisen.maedn.utils.ArmorStandUtils;
+import dev.hufeisen.maedn.utils.ColorUtils;
 import dev.hufeisen.maedn.utils.PlayerUtils;
+import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.boss.BarStyle;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -30,6 +34,8 @@ public class GameBoard {
 
     private static List<Team> playingTeams;
     private static List<GamePlayer> players;
+
+    private static BossBar bossBar;
 
     public static void init() {
 
@@ -123,6 +129,9 @@ public class GameBoard {
             }
             player.updateInventory();
         });
+
+        updateBossBar();
+
         Bukkit.broadcast(Component.text("Game started!", NamedTextColor.GREEN, TextDecoration.BOLD));
     }
 
@@ -235,6 +244,8 @@ public class GameBoard {
 
         players.forEach(GamePlayer::updateInventory);
 
+        updateBossBar();
+
         Bukkit.broadcast(Component.text("It's now team " + currentTeam.getDisplayName() + "'s turn", NamedTextColor.GREEN));
     }
 
@@ -284,7 +295,13 @@ public class GameBoard {
     public static void reset() {
 
         if(players != null) {
-            players.forEach(GamePlayer::resetPlayer);
+            players.forEach(player -> {
+                player.resetPlayer();
+                if(bossBar == null) {
+                    return;
+                }
+                player.getPlayer().hideBossBar(bossBar);
+            });
         }
 
         fields = new ArrayList<>();
@@ -295,6 +312,27 @@ public class GameBoard {
         playingTeams = new ArrayList<>();
         players = new ArrayList<>();
 
+    }
+
+    public static void updateBossBar() {
+
+        Color color = currentTeam.getColor();
+
+        if(bossBar == null) {
+            bossBar = BossBar.bossBar(Component.text("It's Team ")
+                            .append(Component.text(currentTeam.getDisplayName(), ColorUtils.colorToTextColor(color)))
+                            .append(Component.text("'s turn!")),
+                    1f,
+                    ColorUtils.colorToBarColor(color),
+                    BossBar.Overlay.PROGRESS);
+        } else {
+            bossBar.color(ColorUtils.colorToBarColor(color));
+            bossBar.name(Component.text("It's Team ")
+                    .append(Component.text(currentTeam.getDisplayName(), ColorUtils.colorToTextColor(color)))
+                    .append(Component.text("'s turn!")));
+        }
+
+        players.forEach(player -> player.getPlayer().showBossBar(bossBar));
     }
 
     public static GamePiece getPieceAtStartPosition(int position, Team team) {

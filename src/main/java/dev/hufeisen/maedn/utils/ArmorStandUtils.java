@@ -14,7 +14,7 @@ public class ArmorStandUtils {
     public static ArmorStand spawnAmorStand(Location location, Color color, String name, ItemStack skull) {
 
         ArmorStand armorStand = location.getWorld().spawn(location.add(0, 2, 0).toCenterLocation(), ArmorStand.class);
-        armorStand.customName(Component.text(name, ColorUtility.colorToTextColor(color), TextDecoration.BOLD));
+        armorStand.customName(Component.text(name, ColorUtils.colorToTextColor(color), TextDecoration.BOLD));
         armorStand.setCustomNameVisible(true);
         armorStand.getEquipment().setHelmet(skull);
         armorStand.getEquipment().setChestplate(generateArmor(Material.LEATHER_CHESTPLATE, color));
