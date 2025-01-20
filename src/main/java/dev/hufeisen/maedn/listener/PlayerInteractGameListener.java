@@ -8,7 +8,6 @@ import dev.hufeisen.maedn.model.GamePlayer;
 import dev.hufeisen.maedn.utils.DiceUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -35,7 +34,7 @@ public class PlayerInteractGameListener implements Listener {
 
             if (event.getItem().getType() == Material.TARGET) {
 
-                if(gamePlayer.isDiceRollAllowed() && gamePlayer.getDiceResult() == 0) {
+                if (gamePlayer.isDiceRollAllowed() && gamePlayer.getDiceResult() == 0) {
 
                     int rand = DiceUtils.rollDice();
                     gamePlayer.setDiceResult(rand);
@@ -52,7 +51,7 @@ public class PlayerInteractGameListener implements Listener {
                     return;
                 }
 
-                if(gamePlayer.getDiceResult() <= 0) {
+                if (gamePlayer.getDiceResult() <= 0) {
                     player.sendMessage(Component.text("You have to roll the dice first!", NamedTextColor.RED));
                     return;
                 }
@@ -76,7 +75,7 @@ public class PlayerInteractGameListener implements Listener {
             }
         }
 
-        if(MaednMain.getGameState() != GameState.SETUP) {
+        if (MaednMain.getGameState() != GameState.SETUP) {
             event.setCancelled(true);
         }
     }

@@ -1,7 +1,5 @@
 package dev.hufeisen.maedn.commands;
 
-import dev.hufeisen.maedn.GameState;
-import dev.hufeisen.maedn.MaednMain;
 import dev.hufeisen.maedn.model.GameBoard;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;

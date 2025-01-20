@@ -101,9 +101,9 @@ public class GamePlayer {
         player.showTitle(title);
 
         Bukkit.broadcast(Component.text("Team ")
-                        .append(Component.text(team.getDisplayName(), ColorUtils.colorToTextColor(team.getColor())))
-                        .append(Component.text(" rolled a "))
-                        .append(Component.text(result, NamedTextColor.GOLD, TextDecoration.BOLD)));
+                .append(Component.text(team.getDisplayName(), ColorUtils.colorToTextColor(team.getColor())))
+                .append(Component.text(" rolled a "))
+                .append(Component.text(result, NamedTextColor.GOLD, TextDecoration.BOLD)));
 
         //Process dice result 6
         if (result == 6) {

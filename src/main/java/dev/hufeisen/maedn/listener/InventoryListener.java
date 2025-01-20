@@ -16,7 +16,7 @@ public class InventoryListener implements Listener {
 
         for (GUIInventory gui : GUIInventory.getAllGUIs()) gui.onInventoryClick(event);
 
-        if(MaednMain.getGameState() != GameState.SETUP) {
+        if (MaednMain.getGameState() != GameState.SETUP) {
             event.setCancelled(true);
         }
 
@@ -24,7 +24,7 @@ public class InventoryListener implements Listener {
 
     @EventHandler
     public void onInventoryDrag(InventoryDragEvent event) {
-        if(MaednMain.getGameState() != GameState.SETUP) {
+        if (MaednMain.getGameState() != GameState.SETUP) {
             event.setCancelled(true);
         }
 
