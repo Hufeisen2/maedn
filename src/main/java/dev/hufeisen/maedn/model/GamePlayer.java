@@ -166,6 +166,7 @@ public class GamePlayer {
                 //No piece can move the dice result: skip the turn
                 if (pieces.stream().filter(piece -> piece.isInGame() || piece.isAtHome())
                         .noneMatch(piece -> GameBoard.isMoveAllowed(this, piece, result))) {
+                    player.sendMessage(Component.text("There was no possible move with this result! You turn was skipped!", NamedTextColor.RED));
                     GameBoard.nextTurn();
                     return;
                 }
