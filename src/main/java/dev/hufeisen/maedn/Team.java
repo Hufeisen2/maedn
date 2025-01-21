@@ -9,8 +9,8 @@ import java.util.List;
 public enum Team {
 
     RED("Red", "red", Color.RED),
-    BLUE("Blue", "blue", Color.BLUE),
     GREEN("Green", "green", Color.GREEN),
+    BLUE("Blue", "blue", Color.BLUE),
     YELLOW("Yellow", "yellow", Color.YELLOW);
 
     private final String displayName;
