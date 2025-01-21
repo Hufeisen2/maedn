@@ -136,10 +136,22 @@ public class GamePlayer {
                     GameBoard.takePiece(pieceAtStartField);
                     GameBoard.movePieceToBoard(this, pieces.stream().filter(GamePiece::isAtStart).findFirst().get());
                 } else {
-                    diceResult = result;
+                    if (pieces.stream().filter(piece -> piece.isInGame() || piece.isAtHome())
+                            .noneMatch(piece -> GameBoard.isMoveAllowed(this, piece, result))) {
+                        player.sendMessage(Component.text("There was no possible move with this result! The game skipped to you next throw.", NamedTextColor.RED));
+                        diceResult = 0;
+                    } else {
+                        diceResult = result;
+                    }
                 }
             } else {
-                diceResult = result;
+                if (pieces.stream().filter(piece -> piece.isInGame() || piece.isAtHome())
+                        .noneMatch(piece -> GameBoard.isMoveAllowed(this, piece, result))) {
+                    player.sendMessage(Component.text("There was no possible move with this result! The game skipped to you next throw.", NamedTextColor.RED));
+                    diceResult = 0;
+                } else {
+                    diceResult = result;
+                }
             }
 
             diceRollCount = 0;
