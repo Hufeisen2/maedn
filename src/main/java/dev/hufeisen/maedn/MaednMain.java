@@ -4,10 +4,7 @@ import dev.hufeisen.maedn.api.particle.ParticleAPI;
 import dev.hufeisen.maedn.commands.SetDiceCommand;
 import dev.hufeisen.maedn.commands.SetupCommand;
 import dev.hufeisen.maedn.commands.StartGameCommand;
-import dev.hufeisen.maedn.listener.DamageAndBlockListener;
-import dev.hufeisen.maedn.listener.InventoryListener;
-import dev.hufeisen.maedn.listener.PlayerInteractGameListener;
-import dev.hufeisen.maedn.listener.PlayerInteractSetupListener;
+import dev.hufeisen.maedn.listener.*;
 import dev.hufeisen.maedn.model.GameBoard;
 import dev.hufeisen.maedn.model.GamePlayer;
 import net.kyori.adventure.text.Component;
@@ -51,6 +48,7 @@ public final class MaednMain extends JavaPlugin {
         getCommand("setdice").setExecutor(new SetDiceCommand());
 
         pluginManager.registerEvents(new DamageAndBlockListener(), this);
+        pluginManager.registerEvents(new PlayerJoinLeaveListener(), this);
         pluginManager.registerEvents(new InventoryListener(), this);
         pluginManager.registerEvents(new PlayerInteractSetupListener(), this);
         pluginManager.registerEvents(new PlayerInteractGameListener(), this);
