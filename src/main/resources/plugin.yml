@@ -24,4 +24,4 @@ permissions:
     default: op
   maedn.start:
     description: Allows the player to start the game
-    default: op
+    default: true
