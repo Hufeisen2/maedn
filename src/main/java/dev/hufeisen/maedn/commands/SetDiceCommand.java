@@ -11,7 +11,7 @@ public class SetDiceCommand implements CommandExecutor {
     //Just for easier debugging
 
     @Override
-    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] args) {
 
         DiceUtils.setNextDiceValue(Integer.parseInt(args[0]));
 
