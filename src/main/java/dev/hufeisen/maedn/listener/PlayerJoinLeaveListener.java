@@ -26,6 +26,19 @@ public class PlayerJoinLeaveListener implements Listener {
             event.joinMessage(Component.text("The player " + event.getPlayer().getName() + " joined the game. Run", NamedTextColor.GREEN)
                     .append(Component.text(" /start", NamedTextColor.GOLD, TextDecoration.BOLD))
                     .append(Component.text(" to start the game!", NamedTextColor.GREEN)));
+        } else if (gameState == GameState.PAUSE && GameBoard.getPlayers().contains(GamePlayer.getGamePlayer(event.getPlayer().getUniqueId()))) {
+            if(GameBoard.getPlayers().stream()
+                    .filter(player -> !player.getUuid().equals(event.getPlayer().getUniqueId().toString()))
+                    .allMatch(player -> player.getPlayer() != null && player.getPlayer().isOnline())) {
+
+                event.joinMessage(Component.text("The player " + event.getPlayer().getName() + " joined the game. The game will be continued.", NamedTextColor.GREEN));
+                MaednMain.setGameState(GameState.IN_GAME);
+
+            } else {
+
+                event.joinMessage(Component.text("The player " + event.getPlayer().getName() + " joined the game. There are more players missing...", NamedTextColor.GREEN));
+
+            }
         }
 
     }
@@ -36,9 +49,9 @@ public class PlayerJoinLeaveListener implements Listener {
         GamePlayer gamePlayer = GamePlayer.getGamePlayer(event.getPlayer().getUniqueId());
 
         //Reset the game if the player is playing, otherwise everything will break... Can I fix this? Yes. Do I want to fix this? No.
-        if(GameBoard.getPlayers().contains(gamePlayer)) {
-            GameBoard.reset();
-            event.quitMessage(Component.text("The Player " + event.getPlayer().getName() + " left and the game was aborted.", NamedTextColor.RED));
+        if(MaednMain.getGameState() == GameState.IN_GAME && GameBoard.getPlayers().contains(gamePlayer)) {
+            MaednMain.setGameState(GameState.PAUSE);
+            event.quitMessage(Component.text("The Player " + event.getPlayer().getName() + " left and the game was paused.", NamedTextColor.RED));
         }
     }
 }

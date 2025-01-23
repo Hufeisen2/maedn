@@ -19,6 +19,10 @@ public class GameLoop implements Runnable {
     @Override
     public void run() {
 
+        if(MaednMain.getGameState() != GameState.IN_GAME) {
+            return;
+        }
+
         Optional<GamePlayer> currentPlayerOptional = GameBoard.getPlayers().stream().filter(player -> player.getTeam() == GameBoard.getCurrentTeam()).findFirst();
 
         if (currentPlayerOptional.isPresent()) {
