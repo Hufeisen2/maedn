@@ -5,6 +5,7 @@ import dev.hufeisen.maedn.MaednMain;
 import dev.hufeisen.maedn.model.GameBoard;
 import dev.hufeisen.maedn.model.GamePlayer;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
@@ -24,7 +25,7 @@ public class PlayerJoinLeaveListener implements Listener {
             event.joinMessage(Component.text("The player " + event.getPlayer().getName() + " joined the game.", NamedTextColor.GREEN));
         } else if(gameState == GameState.LOBBY) {
             event.joinMessage(Component.text("The player " + event.getPlayer().getName() + " joined the game. Run", NamedTextColor.GREEN)
-                    .append(Component.text(" /start", NamedTextColor.GOLD, TextDecoration.BOLD))
+                    .append(Component.text(" /start", NamedTextColor.GOLD, TextDecoration.BOLD).clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/start")))
                     .append(Component.text(" to start the game!", NamedTextColor.GREEN)));
         } else if (gameState == GameState.PAUSE && GameBoard.getPlayers().contains(GamePlayer.getGamePlayer(event.getPlayer().getUniqueId()))) {
             if(GameBoard.getPlayers().stream()
