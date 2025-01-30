@@ -348,7 +348,12 @@ public class GameBoard {
                 if (bossBar == null) {
                     return;
                 }
-                player.getPlayer().hideBossBar(bossBar);
+
+                Player realPlayer = player.getPlayer();
+
+                if(realPlayer != null && realPlayer.isOnline()) {
+                    realPlayer.hideBossBar(bossBar);
+                }
             });
         }
 

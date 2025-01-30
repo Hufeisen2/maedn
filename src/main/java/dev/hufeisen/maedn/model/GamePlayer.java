@@ -46,7 +46,11 @@ public class GamePlayer {
         team = null;
         resetDice();
 
-        getPlayer().getInventory().clear();
+        Player player = getPlayer();
+
+        if(player != null && player.isOnline()) {
+            player.getInventory().clear();
+        }
     }
 
     public void updateInventory() {
